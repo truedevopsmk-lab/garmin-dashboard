@@ -1,13 +1,16 @@
 # RunStack – Garmin Performance Engine
 
-Python CLI + analytics engine on top of Garmin Connect.
+RunStack includes both:
+
+- a CLI for export/analyze workflows
+- a Streamlit web application for interactive use
 
 ## Features
 
 - Garmin Connect authentication via `garminconnect`
 - Environment variable credentials (`GARMIN_EMAIL`, `GARMIN_PASSWORD`) with `.env` support
 - Session persistence via `garth` token dump/load to reduce repeated full logins
-- Activity export pipeline to CSV (`export` mode, and default mode)
+- Activity export pipeline to CSV
 - FIT download + parsing pipeline for full time-series fields:
   - `timestamp`
   - `heart_rate`
@@ -15,7 +18,7 @@ Python CLI + analytics engine on top of Garmin Connect.
   - `distance`
   - `speed`
   - `altitude`
-- Performance analytics (`analyze` mode):
+- Performance analytics:
   - Average HR
   - Max HR
   - HR drift (first half vs second half)
@@ -31,7 +34,8 @@ garmin_dashboard/
 ├── data_store.py
 ├── fit_parser.py
 ├── garmin_client.py
-└── main.py
+├── main.py
+└── web_app.py
 ```
 
 ## Setup
@@ -45,9 +49,9 @@ cp .env.example .env
 
 Update `.env` with your Garmin credentials.
 
-## Usage
+## CLI Usage
 
-### 1) Export recent activity summaries (existing behavior)
+### Export recent activity summaries
 
 ```bash
 garmin-dashboard --days 7 --limit 10 --activity-type running --csv-path data/activities.csv
@@ -59,19 +63,33 @@ Equivalent explicit subcommand:
 garmin-dashboard export --days 7 --limit 10 --activity-type running --csv-path data/activities.csv
 ```
 
-### 2) Analyze one activity from FIT data
+### Analyze one activity from FIT data
 
 ```bash
 garmin-dashboard analyze --activity-id 21989714581
 ```
 
-This will:
+This downloads FIT, parses time-series metrics, computes analytics, and saves the parsed CSV.
 
-1. Download FIT to `data/fit/<activity_id>.fit`
-2. Parse record-level FIT metrics
-3. Compute performance analytics
-4. Print a summary
-5. Save parsed time-series CSV to `data/fit/<activity_id>_timeseries.csv`
+## Web App Usage
+
+### Option A: console script
+
+```bash
+garmin-dashboard-web
+```
+
+### Option B: streamlit directly
+
+```bash
+streamlit run garmin_dashboard/web_app.py
+```
+
+In the app:
+
+1. Enter Garmin credentials in the sidebar.
+2. Use the **Export** tab to fetch/filter and save activity CSV.
+3. Use the **Analyze** tab to download FIT, compute metrics, and save time-series CSV.
 
 ## Notes
 

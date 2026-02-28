@@ -13,8 +13,10 @@ dependencies = [
   "garth>=0.4.47",
   "fitparse>=1.2.0",
   "python-dotenv>=1.0.0",
-  "pandas>=2.0.0"
+  "pandas>=2.0.0",
+  "streamlit>=1.30.0"
 ]
 
 [project.scripts]
 garmin-dashboard = "garmin_dashboard.main:main"
+garmin-dashboard-web = "garmin_dashboard.web_app:main"
