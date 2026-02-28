@@ -1,0 +1,4 @@
+activity_id,activity_name,activity_type,average_cadence,average_hr,calories,distance_m,duration_s,max_hr,moving_duration_s,start_time_local
+22002648409,Bengaluru Walking,walking,,104.0,176.0,2996.860107421875,1825.032958984375,119.0,1823.3889770507812,2026-02-27 17:53:41
+21990114671,Bengaluru Walking,walking,,104.0,312.0,5151.240234375,3683.218994140625,116.0,3369.0,2026-02-24 17:47:32
+21989711490,Bengaluru Walking,walking,,108.0,0.0,0.5600000023841858,1.0850000381469727,108.0,0.0,2026-02-23 18:01:12
