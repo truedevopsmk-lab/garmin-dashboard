@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "garmin-dashboard"
+version = "0.1.0"
+description = "Export Garmin Connect runs/workouts to CSV with optional FIT metrics"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "garminconnect>=0.2.20",
+  "fitparse>=1.2.0",
+  "python-dotenv>=1.0.0"
+]
+
+[project.scripts]
+garmin-dashboard = "garmin_dashboard.main:main"
