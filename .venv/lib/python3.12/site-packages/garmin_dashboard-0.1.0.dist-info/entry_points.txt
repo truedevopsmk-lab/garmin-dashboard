@@ -1,0 +1,2 @@
+[console_scripts]
+garmin-dashboard = garmin_dashboard.main:main
