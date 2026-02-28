@@ -1,10 +1,9 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
-import logging
-
 
 logger = logging.getLogger(__name__)
 
@@ -76,15 +75,10 @@ class GarminConnectClient:
         activities: Iterable[dict[str, Any]] = self.api.get_activities(start, limit)
         return list(activities)
 
-    def download_fit(self, activity_id: int | str, output_dir: Path) -> Path | None:
-        """Download FIT file for an activity if available.
-
-        Returns path to downloaded file, or None when a FIT payload cannot be retrieved.
-        """
-        output_dir.mkdir(parents=True, exist_ok=True)
+    def download_fit(self, activity_id: int, save_path: str | Path) -> Path | None:
+        """Download FIT file for an activity, write to save_path, and return written path."""
         fit_bytes = None
 
-        # API compatibility handling for multiple garminconnect versions.
         try:
             fit_bytes = self.api.download_activity(activity_id, dl_fmt="fit")
         except TypeError:
@@ -103,6 +97,12 @@ class GarminConnectClient:
             logger.warning("No FIT data available for activity %s", activity_id)
             return None
 
-        out_file = output_dir / f"{activity_id}.fit"
-        out_file.write_bytes(fit_bytes)
-        return out_file
+        path = Path(save_path)
+        if path.suffix.lower() != ".fit":
+            path.mkdir(parents=True, exist_ok=True)
+            path = path / f"{activity_id}.fit"
+        else:
+            path.parent.mkdir(parents=True, exist_ok=True)
+
+        path.write_bytes(fit_bytes)
+        return path
